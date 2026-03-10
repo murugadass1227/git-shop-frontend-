@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet, faPlus, faArrowUpRightFromBracket, faArrowDownLong } from '@fortawesome/free-solid-svg-icons';
+import { faWallet, faPlus, faArrowUpFromBracket, faArrowDownLong } from '@fortawesome/free-solid-svg-icons';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -42,7 +42,7 @@ export default function WalletPage() {
         <CardContent>
           {transactions.length === 0 ? (
             <div className="py-8 text-center text-slate-600 text-sm">
-              <FontAwesomeIcon icon={faArrowUpRightFromBracket} className="mx-auto h-10 w-10 text-pink-400 mb-2" />
+              <FontAwesomeIcon icon={faArrowUpFromBracket} className="mx-auto h-10 w-10 text-pink-400 mb-2" />
               <p>No transactions yet.</p>
               <p className="mt-1">Add money or use wallet at checkout to see activity here.</p>
               <Button variant="outline" className="mt-4 border-pink-200 text-pink-600 hover:bg-pink-50 hover-lift-3d transition-all duration-300" asChild>
@@ -57,7 +57,7 @@ export default function WalletPage() {
                     {tx.type === 'credit' ? (
                       <FontAwesomeIcon icon={faArrowDownLong} className="h-5 w-5 text-green-600" />
                     ) : (
-                      <FontAwesomeIcon icon={faArrowUpRightFromBracket} className="h-5 w-5 text-slate-500" />
+                      <FontAwesomeIcon icon={faArrowUpFromBracket} className="h-5 w-5 text-slate-500" />
                     )}
                     <div>
                       <p className="font-medium text-slate-800 text-sm">{tx.label}</p>

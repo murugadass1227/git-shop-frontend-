@@ -25,7 +25,7 @@ export default function TrackOrderPage() {
       <Card className="mt-6 sm:mt-8 border-border">
         <CardHeader>
           <CardTitle className="text-base font-medium flex items-center gap-2">
-            <Truck className="h-5 w-5 text-primary" />
+            <FontAwesomeIcon icon={faTruck} className="h-5 w-5 text-primary" />
             Find your order
           </CardTitle>
           <CardDescription>Order ID is in your confirmation email or in Account → Orders.</CardDescription>
