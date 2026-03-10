@@ -130,9 +130,9 @@ export function NavbarSidebar({
 }: NavbarSidebarProps) {
   const [activeGroupTitle, setActiveGroupTitle] = useState<string | null>(null);
   const hiddenScrollbarClass =
-    'overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden';
+    'overflow-y-auto overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden';
   const hiddenBothAxisScrollbarClass =
-    'overflow-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden';
+    'overflow-auto overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden';
   const activeSection = useMemo(
     () => (subSidebarSection ? sidebarSectionsWithSub.find((s) => s.id === subSidebarSection) ?? null : null),
     [sidebarSectionsWithSub, subSidebarSection]
@@ -158,22 +158,26 @@ export function NavbarSidebar({
     <Sheet open={open} onOpenChange={(nextOpen) => { onOpenChange(nextOpen); if (!nextOpen) setSubSidebarSection(null); }}>
       <SheetContent
         side="left"
-        className={`flex h-full flex-row gap-0 overflow-hidden border-r border-rose-100 bg-gradient-to-br from-[#fffafb] via-[#fff6f9] to-[#fffdfd] p-0 shadow-[0_24px_80px_rgba(244,114,182,0.14)] ${
+        className={`flex h-full flex-row gap-0 overflow-hidden border-r border-rose-100 bg-gradient-to-br from-[#fffafb] via-[#fff6f9] to-[#fffdfd] p-0 shadow-[0_24px_80px_rgba(244,114,182,0.14)] touch-manipulation max-h-[100dvh] h-[100dvh] pl-[max(0.5rem,env(safe-area-inset-left))] pb-[env(safe-area-inset-bottom)] ${
           activeSection
             ? '!w-screen !max-w-none sm:!w-[calc(100vw-1.5rem)] xl:!w-[78rem]'
-            : '!w-[18.5rem] !max-w-[88vw]'
+            : '!w-[min(18.5rem,85vw)] !max-w-[85vw] sm:!max-w-none sm:!w-[18.5rem]'
         }`}
         aria-describedby={undefined}
       >
         <SheetTitle className="sr-only">Menu</SheetTitle>
         <div className="flex h-full w-full min-w-0">
-          <div className="flex h-full w-[18.5rem] max-w-[88vw] flex-col border-r border-rose-100/80 bg-white/95 backdrop-blur-sm">
-            <div className="flex shrink-0 items-center justify-between border-b border-rose-100/80 px-5 py-4">
+          <div className={`flex h-full flex-col border-r border-rose-100/80 bg-white/95 backdrop-blur-sm shrink-0 ${
+            activeSection
+              ? 'w-[12rem] min-w-[10rem] max-w-[42vw] sm:w-[18.5rem] sm:min-w-[18.5rem] sm:max-w-none'
+              : 'w-[18.5rem] max-w-[85vw] sm:max-w-none'
+          }`}>
+            <div className="flex shrink-0 items-center justify-between border-b border-rose-100/80 px-4 py-3 sm:px-5 sm:py-4">
               <h2 className="text-lg font-semibold tracking-tight text-slate-800">Menu</h2>
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-2xl text-slate-500 hover:bg-rose-50 hover:text-rose-500"
+                className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-2xl text-slate-500 hover:bg-rose-50 hover:text-rose-500 active:scale-95 touch-manipulation"
                 onClick={() => { onOpenChange(false); setSubSidebarSection(null); }}
                 aria-label="Close menu"
               >
@@ -182,12 +186,12 @@ export function NavbarSidebar({
             </div>
 
             <div className={`flex-1 min-h-0 ${hiddenScrollbarClass}`}>
-              <div className="border-b border-rose-100/80 px-4 py-4">
-                <div className="grid grid-cols-3 gap-3 rounded-[1.75rem] bg-gradient-to-br from-rose-50 via-white to-pink-50 p-3 shadow-[0_14px_35px_rgba(244,114,182,0.08)]">
+              <div className="border-b border-rose-100/80 px-3 py-3 sm:px-4 sm:py-4">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 rounded-[1.75rem] bg-gradient-to-br from-rose-50 via-white to-pink-50 p-2.5 sm:p-3 shadow-[0_14px_35px_rgba(244,114,182,0.08)]">
                 {userRole === 'admin' && (
                   <Link
                     href="/admin"
-                    className="flex flex-col items-center gap-2 rounded-2xl border border-transparent bg-white/80 p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm"
+                    className="flex min-h-[72px] sm:min-h-0 flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-2xl border border-transparent bg-white/80 p-2 sm:p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm active:scale-[0.98] touch-manipulation"
                     onClick={() => onOpenChange(false)}
                   >
                     <div className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-100 bg-rose-50 text-rose-500 shadow-sm">
@@ -198,7 +202,7 @@ export function NavbarSidebar({
                 )}
                 <Link
                   href={profileHref}
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-transparent bg-white/80 p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm"
+                  className="flex min-h-[72px] sm:min-h-0 flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-2xl border border-transparent bg-white/80 p-2 sm:p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm active:scale-[0.98] touch-manipulation"
                   onClick={() => onOpenChange(false)}
                 >
                   <div className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-100 bg-rose-50 text-rose-500 shadow-sm">
@@ -212,7 +216,7 @@ export function NavbarSidebar({
                 </Link>
                 <Link
                   href="/wallet"
-                  className="flex flex-col items-center gap-2 rounded-2xl border border-transparent bg-white/80 p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm"
+                  className="flex min-h-[72px] sm:min-h-0 flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-2xl border border-transparent bg-white/80 p-2 sm:p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm active:scale-[0.98] touch-manipulation"
                   onClick={() => onOpenChange(false)}
                 >
                   <div className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-100 bg-rose-50 text-rose-500 shadow-sm">
@@ -223,7 +227,7 @@ export function NavbarSidebar({
                 {!userRole && (
                   <Link
                     href="/reminder"
-                    className="flex flex-col items-center gap-2 rounded-2xl border border-transparent bg-white/80 p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm"
+                    className="flex min-h-[72px] sm:min-h-0 flex-col items-center justify-center gap-1.5 sm:gap-2 rounded-2xl border border-transparent bg-white/80 p-2 sm:p-2.5 text-center transition hover:-translate-y-0.5 hover:border-rose-100 hover:bg-white hover:shadow-sm active:scale-[0.98] touch-manipulation"
                     onClick={() => onOpenChange(false)}
                   >
                     <div className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-100 bg-rose-50 text-rose-500 shadow-sm">
@@ -244,7 +248,7 @@ export function NavbarSidebar({
                         setSubSidebarSection(section.id);
                         setActiveGroupTitle(section.groups[0]?.title ?? null);
                       }}
-                      className={`flex w-full items-center justify-between rounded-2xl border px-3.5 py-3 text-left transition ${
+                      className={`flex w-full min-h-[44px] items-center justify-between rounded-2xl border px-3.5 py-3 text-left transition touch-manipulation active:scale-[0.99] ${
                         subSidebarSection === section.id
                           ? 'border-pink-100 bg-gradient-to-r from-pink-50 via-rose-50 to-white text-slate-900 shadow-[0_12px_25px_rgba(244,114,182,0.10)]'
                           : 'border-transparent text-slate-700 hover:border-rose-100 hover:bg-rose-50/70'
@@ -318,12 +322,12 @@ export function NavbarSidebar({
           {activeSection && (
             <>
               <div className="animate-slide-in-right-3d flex min-w-0 flex-1 xl:hidden">
-                <div className="flex h-full min-w-0 flex-1 flex-col bg-white/96 backdrop-blur-sm">
-                  <div className="flex shrink-0 items-center gap-3 border-b border-rose-100/80 px-4 py-4">
+                <div className="flex h-full min-w-0 flex-1 flex-col bg-white/96 backdrop-blur-sm min-w-0">
+                  <div className="flex shrink-0 items-center gap-3 border-b border-rose-100/80 px-3 py-3 sm:px-4 sm:py-4">
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="rounded-2xl text-slate-500 hover:bg-rose-50 hover:text-rose-500"
+                      className="h-11 w-11 min-h-[44px] min-w-[44px] shrink-0 rounded-2xl text-slate-500 hover:bg-rose-50 hover:text-rose-500 active:scale-95 touch-manipulation"
                       onClick={() => setSubSidebarSection(null)}
                       aria-label="Back"
                     >
@@ -344,7 +348,7 @@ export function NavbarSidebar({
                           key={group.title}
                           type="button"
                           onClick={() => setActiveGroupTitle(group.title)}
-                          className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
+                          className={`shrink-0 min-h-[40px] rounded-full border px-4 py-2 text-sm font-medium transition touch-manipulation active:scale-[0.98] ${
                             activeGroup?.title === group.title
                               ? 'border-pink-100 bg-pink-50 text-pink-600 shadow-sm'
                               : 'border-rose-100 bg-white text-slate-600 hover:border-pink-100 hover:bg-rose-50'
